@@ -23,95 +23,92 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Expanded(
-        child: Container(
-          width: double.infinity,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 60,
-                left: 10,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Movie App',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 28),
+      body: Container(
+        width: double.infinity,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 60,
+              left: 10,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Movie App',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28),
+                    ),
+                    Text(
+                      'Bienvenidos',
+                      style: titleLoginStyle,
+                    ),
+                    SizedBox(height: 150),
+                    InputTransparent(
+                        size: size,
+                        text: 'Usuario',
+                        icon:
+                            FaIcon(FontAwesomeIcons.user, color: Colors.white),
+                        controller: usuario),
+                    Container(
+                      width: size.width - 50,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 15),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: size.width - 100,
+                            child: TextFormField(
+                                obscureText: visiblePass,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    hintText: 'Contraseña',
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white)),
+                                    hintStyle: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                    icon: FaIcon(FontAwesomeIcons.lock,
+                                        color: Colors.white))),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                visiblePass = !visiblePass;
+                              });
+                            },
+                            child: Container(
+                                width: 50,
+                                alignment: Alignment.center,
+                                child: FaIcon(
+                                  visiblePass
+                                      ? FontAwesomeIcons.eye
+                                      : FontAwesomeIcons.eyeSlash,
+                                  color: Colors.white,
+                                )),
+                          )
+                        ],
                       ),
-                      Text(
-                        'Bienvenidos',
-                        style: titleLoginStyle,
-                      ),
-                      SizedBox(height: 150),
-                      InputTransparent(
-                          size: size,
-                          text: 'Usuario',
-                          icon: FaIcon(FontAwesomeIcons.user,
-                              color: Colors.white),
-                          controller: usuario),
-                      Container(
-                        width: size.width - 50,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 15),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: size.width - 100,
-                              child: TextFormField(
-                                  obscureText: visiblePass,
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white)),
-                                      hintText: 'Contraseña',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white)),
-                                      hintStyle: TextStyle(
-                                          color: Colors.white, fontSize: 18),
-                                      icon: FaIcon(FontAwesomeIcons.lock,
-                                          color: Colors.white))),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  visiblePass = !visiblePass;
-                                });
-                              },
-                              child: Container(
-                                  width: 50,
-                                  alignment: Alignment.center,
-                                  child: FaIcon(
-                                    visiblePass
-                                        ? FontAwesomeIcons.eye
-                                        : FontAwesomeIcons.eyeSlash,
-                                    color: Colors.white,
-                                  )),
-                            )
-                          ],
-                        ),
-                      ),
-                      InkWell(
-                          onTap: () => Navigator.pushNamed(context, 'home'),
-                          child: ButtonTransparent(text: 'Iniciar Sesion'))
-                    ],
-                  ),
+                    ),
+                    InkWell(
+                        onTap: () => Navigator.pushNamed(context, 'home'),
+                        child: ButtonTransparent(text: 'Iniciar Sesion'))
+                  ],
                 ),
-              )
-            ],
-          ),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/it2.gif'),
-                colorFilter:
-                    ColorFilter.mode(Colors.white70, BlendMode.modulate),
-                fit: BoxFit.fitHeight),
-          ),
+              ),
+            )
+          ],
+        ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/it2.gif'),
+              colorFilter: ColorFilter.mode(Colors.white70, BlendMode.modulate),
+              fit: BoxFit.fitHeight),
         ),
       ),
     );
