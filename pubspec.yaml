@@ -32,6 +32,7 @@ dependencies:
   http: ^0.13.3
   provider: ^5.0.0
   font_awesome_flutter: ^9.1.0
+  video_player:
 
 dev_dependencies:
   flutter_test:

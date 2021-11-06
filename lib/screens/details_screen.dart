@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/models/models.dart';
+import 'package:peliculas/widgets/videoplayer.dart';
 import 'package:peliculas/widgets/widgets.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -77,13 +78,21 @@ class _PosterAndTitle extends StatelessWidget {
         children: [
           Hero(
             tag: movie.heroId!,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: FadeInImage(
-                placeholder: AssetImage('assets/no-image.jpg'),
-                image: NetworkImage(movie.fullPosterImg),
-                height: 150,
+            child: InkWell(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(movie.fullPosterImg),
+                  height: 150,
+                ),
               ),
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VideoPlayerScreen()))
+              },
             ),
           ),
           SizedBox(width: 20),
