@@ -1,27 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:peliculas/models/models.dart';
+import 'package:peliculas/providers/movies_provider.dart';
 import 'package:peliculas/widgets/videoplayer.dart';
 import 'package:peliculas/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
-
+    final moviesProvider = Provider.of<MoviesProvider>(context);
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        _CustomAppBar(movie),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          _PosterAndTitle(movie),
-          _Overview(movie),
-          _Overview(movie),
-          _Overview(movie),
-          CastingCards(movie.id)
-        ]))
-      ],
-    ));
+      floatingActionButton: ValueListenableBuilder<List<Movie>>(
+        valueListenable: moviesProvider.favMovies,
+        builder: (context, value, child) => FloatingActionButton(
+          onPressed: () {
+            moviesProvider.manageMovieFav(movie);
+          },
+          child: FaIcon(moviesProvider.isFavourite(movie.id)
+              ? FontAwesomeIcons.solidHeart
+              : FontAwesomeIcons.heart),
+              backgroundColor: Colors.red,
+        ),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          _CustomAppBar(movie),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _PosterAndTitle(movie),
+                _Overview(movie),
+                _Overview(movie),
+                _Overview(movie),
+                CastingCards(movie.id)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -71,55 +90,59 @@ class _PosterAndTitle extends StatelessWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        children: [
-          Hero(
-            tag: movie.heroId!,
-            child: InkWell(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/no-image.jpg'),
-                  image: NetworkImage(movie.fullPosterImg),
-                  height: 150,
+    return Material(
+      child: SizedBox(
+        child: Container(
+          margin: EdgeInsets.only(top: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            children: [
+              Hero(
+                tag: movie.heroId!,
+                child: GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/no-image.jpg'),
+                      image: NetworkImage(movie.fullPosterImg),
+                      height: 150,
+                    ),
+                  ),
+                  onTap: () => {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VideoPlayerScreen(heroID: movie.posterPath ?? 'DONT_MOVIE',)))
+                  },
                 ),
               ),
-              onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VideoPlayerScreen()))
-              },
-            ),
-          ),
-          SizedBox(width: 20),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: size.width - 190),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(movie.title,
-                    style: textTheme.headline5,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2),
-                Text(movie.originalTitle,
-                    style: textTheme.subtitle1,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2),
-                Row(
+              SizedBox(width: 20),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: size.width - 190),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.star_outline, size: 15, color: Colors.grey),
-                    SizedBox(width: 5),
-                    Text('${movie.voteAverage}', style: textTheme.caption)
+                    Text(movie.title,
+                        style: textTheme.headline5,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2),
+                    Text(movie.originalTitle,
+                        style: textTheme.subtitle1,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2),
+                    Row(
+                      children: [
+                        Icon(Icons.star_outline, size: 15, color: Colors.grey),
+                        SizedBox(width: 5),
+                        Text('${movie.voteAverage}', style: textTheme.caption)
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-          )
-        ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:peliculas/startapp/widgets.dart';
+import 'package:peliculas/widgets/dialogCustom.dart';
 import 'package:peliculas/widgets/styles.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var usuario = TextEditingController();
   var pass = TextEditingController();
-  bool visiblePass = false;
+  bool visiblePass = true;
   @override
   void initState() {
     super.initState();
@@ -61,6 +62,8 @@ class _LoginPageState extends State<LoginPage> {
                           Container(
                             width: size.width - 100,
                             child: TextFormField(
+                                controller: pass,
+                                keyboardType: TextInputType.visiblePassword,
                                 obscureText: visiblePass,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
@@ -96,7 +99,36 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     InkWell(
-                        onTap: () => Navigator.pushNamed(context, 'home'),
+                        onTap: () {
+                         
+                          final tempPass = pass.text;
+                          if ( tempPass.isNotEmpty) {
+                            if ( tempPass == 'hola') {
+                              Future.delayed(
+                                  Duration(milliseconds: 2500),
+                                  () => {
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, 'home', (route) => false)
+                                      });
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomDialogBox('Oh no!',
+                                        'Tu contraseña es incorrecta 😢', 'OK');
+                                  });
+                            }
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CustomDialogBox(
+                                      'Error',
+                                      'Complete los campos de Email y Contraseña 🤨',
+                                      'OK');
+                                });
+                          }
+                        },
                         child: ButtonTransparent(text: 'Iniciar Sesion'))
                   ],
                 ),

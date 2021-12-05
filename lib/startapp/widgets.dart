@@ -78,6 +78,7 @@ class InputTransparent extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: TextFormField(
           style: TextStyle(color: Colors.white),
+          keyboardType: TextInputType.emailAddress ,
           decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white)),

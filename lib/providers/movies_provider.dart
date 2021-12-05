@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,24 @@ import 'package:peliculas/models/models.dart';
 import 'package:peliculas/models/search_response.dart';
 
 class MoviesProvider extends ChangeNotifier {
-  String _apiKey = '1865f43a0549ca50d341dd9ab8b29f49';
+  final ValueNotifier<int> selectedTab = ValueNotifier<int>(0);
+  final ValueNotifier<List<Movie>> favMovies = ValueNotifier([]);
+
+  void manageMovieFav(Movie movie) {
+    List<Movie> list = favMovies.value;
+    if (list.where((element) => element.id == movie.id).isNotEmpty) {
+      list.removeWhere((element) => element.id == movie.id);
+    } else {
+      list.add(movie);
+    }
+    favMovies.value = List.of(list);
+  }
+
+  bool isFavourite(int id) {
+    return favMovies.value.where((element) => element.id == id).isNotEmpty;
+  }
+  //String _apiKey = '1865f43a0549ca50d341dd9ab8b29f49';
+  String _apiKey = '94fddc552263499edaa80ebef09c8949';
   String _baseUrl = 'api.themoviedb.org';
   String _language = 'es-ES';
 

@@ -59,8 +59,7 @@ class _MovieSliderState extends State<MovieSlider> {
                 controller: scrollController,
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.movies.length,
-                itemBuilder: (_, int index) => _MoviePoster(
-                    widget.movies[index],
+                itemBuilder: (_, int index) => MoviePoster(widget.movies[index],
                     '${widget.title}-$index-${widget.movies[index].id}')),
           ),
         ],
@@ -69,11 +68,11 @@ class _MovieSliderState extends State<MovieSlider> {
   }
 }
 
-class _MoviePoster extends StatelessWidget {
+class MoviePoster extends StatelessWidget {
   final Movie movie;
   final String heroId;
 
-  const _MoviePoster(this.movie, this.heroId);
+  const MoviePoster(this.movie, this.heroId);
 
   @override
   Widget build(BuildContext context) {

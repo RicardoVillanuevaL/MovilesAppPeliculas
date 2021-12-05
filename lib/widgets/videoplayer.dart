@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  VideoPlayerScreen({Key? key}) : super(key: key);
+  final String heroID;
+  VideoPlayerScreen({Key? key, required this.heroID}) : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -14,9 +15,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    );
+    final temp = widget.heroID;
+    print(temp);
+    String video = '';
+    if (temp == '/2jVVDtDaeMxmcvrz2SNyhMcYtWc.jpg') { //VENOM
+    video = 'https://drive.google.com/uc?export=view&id=1FFQrq5nkW8CkHta47qUCl9iwy14pBiCb';
+
+    } else if ( temp == '/9VqajJXm29uprSaxOcEh7O0d6E9.jpg' ) { //SHANG SHI
+      video  = 'https://drive.google.com/uc?export=view&id=1LbgSQjvQ8jRzX0i4NSRVbptRmSsZXSAZ';
+    }
+    else {
+      video = 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4';
+    }
+    _controller = VideoPlayerController.network(video);
     _initializeVideoPlayerFuture = _controller.initialize();
 
     super.initState();
@@ -35,7 +46,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Trailer'),
+        title: Text('Trailer',style:  TextStyle(color: Colors.black),),
+        iconTheme: IconThemeData(color: Colors.black) ,
       ),
       body: Center(
         child: FutureBuilder(
